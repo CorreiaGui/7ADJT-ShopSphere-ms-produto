@@ -18,11 +18,12 @@ import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 
 @Slf4j
-@RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/v1/produtos",
-        produces = "application/json")
+@RequiredArgsConstructor
+@RequestMapping(value = ProdutoController.V1_PRODUTOS, produces = "application/json")
 public class ProdutoController {
+
+    public static final String V1_PRODUTOS = "/api/v1/produtos";
 
     private final BuscarProdutoUseCase buscar;
 
