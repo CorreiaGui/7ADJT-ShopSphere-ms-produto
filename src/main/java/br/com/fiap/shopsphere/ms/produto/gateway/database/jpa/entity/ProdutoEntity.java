@@ -14,15 +14,13 @@ import static java.time.LocalDateTime.now;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "produto", schema = "ms_produto")
 public class ProdutoEntity {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
-    private UUID id;
-
     @Column(nullable = false, unique = true)
     private String sku;
 

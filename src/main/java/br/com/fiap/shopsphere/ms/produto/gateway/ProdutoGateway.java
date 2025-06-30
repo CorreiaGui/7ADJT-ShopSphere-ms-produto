@@ -1,16 +1,20 @@
 package br.com.fiap.shopsphere.ms.produto.gateway;
 
 import br.com.fiap.shopsphere.ms.produto.domain.Produto;
+import br.com.fiap.shopsphere.ms.produto.gateway.database.jpa.entity.ProdutoEntity;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface ProdutoGateway  {
 
     Optional<Produto> buscarPorSku(String sku);
 
-    Optional<Produto> buscarPorId(UUID ID);
+    List<Produto> buscarProdutos(int page, int size);
 
-    List<Produto> buscarTodosProdutos();
+    ProdutoEntity criarProduto(ProdutoEntity entity);
+
+    void excluirProduto(String sku);
+
+    ProdutoEntity alterarProduto(ProdutoEntity sku);
 }

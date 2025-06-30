@@ -5,11 +5,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ProdutoJson(
-         UUID id,
          String sku,
          String nome,
          BigDecimal preco,
          LocalDateTime dataCriacao,
          LocalDateTime dataUltimaAlteracao
-
 ) {}

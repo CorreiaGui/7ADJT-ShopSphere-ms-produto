@@ -21,11 +21,4 @@ public class BuscarProdutoUseCase {
         return gateway.buscarPorSku(sku).orElseThrow(() -> new RuntimeException("Produto não encontrado - SKU: " + sku));
     }
 
-    public Produto buscarPorId(UUID id) {
-        return gateway.buscarPorId(id).orElseThrow(() -> new RuntimeException("Produto não encontrado - id: " + id));
-    }
-
-    public List<Produto> buscarTodosProdutos() {
-        return gateway.buscarTodosProdutos();
-    }
 }

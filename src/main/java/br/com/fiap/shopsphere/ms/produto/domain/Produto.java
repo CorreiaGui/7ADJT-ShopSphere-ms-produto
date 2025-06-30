@@ -14,8 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Produto {
 
-    private UUID id;
-
     private String sku;
 
     private String nome;
