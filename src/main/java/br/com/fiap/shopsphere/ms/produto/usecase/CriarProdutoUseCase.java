@@ -1,6 +1,7 @@
 package br.com.fiap.shopsphere.ms.produto.usecase;
 
 import br.com.fiap.shopsphere.ms.produto.controller.json.ProdutoBodyRequestJson;
+import br.com.fiap.shopsphere.ms.produto.exception.ProdutoExistenteException;
 import br.com.fiap.shopsphere.ms.produto.gateway.ProdutoGateway;
 import br.com.fiap.shopsphere.ms.produto.gateway.database.jpa.entity.ProdutoEntity;
 import br.com.fiap.shopsphere.ms.produto.utils.ProdutoUtils;
@@ -17,12 +18,14 @@ public class CriarProdutoUseCase {
     private ProdutoGateway gateway;
 
     public ProdutoEntity criarProduto(ProdutoBodyRequestJson json) {
-        gateway.buscarPorSku(json.sku()).ifPresent(produto -> {
-            throw new RuntimeException("O SKU do produto já está em uso");
-        });
+        checarSeProdutoExiste(json);
         ProdutoEntity entity = convertToProdutoEntity(json);
         return gateway.criarProduto(entity);
     }
 
-
+    private void checarSeProdutoExiste(ProdutoBodyRequestJson json) {
+        gateway.buscarPorSku(json.sku()).ifPresent(produto -> {
+            throw new ProdutoExistenteException();
+        });
+    }
 }
