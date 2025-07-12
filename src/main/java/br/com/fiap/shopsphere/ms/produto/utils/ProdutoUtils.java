@@ -1,8 +1,10 @@
 package br.com.fiap.shopsphere.ms.produto.utils;
 
+import br.com.fiap.shopsphere.ms.produto.controller.json.AtualizarProdutoJson;
 import br.com.fiap.shopsphere.ms.produto.controller.json.ProdutoBodyRequestJson;
 import br.com.fiap.shopsphere.ms.produto.controller.json.ProdutoJson;
 import br.com.fiap.shopsphere.ms.produto.domain.Produto;
+import br.com.fiap.shopsphere.ms.produto.exception.AtributoObrigatorioException;
 import br.com.fiap.shopsphere.ms.produto.gateway.database.jpa.entity.ProdutoEntity;
 
 import static java.time.LocalDateTime.now;
@@ -48,5 +50,21 @@ public final class ProdutoUtils {
                 .dataCriacao(existente.getDataCriacao())
                 .dataUltimaAlteracao(now())
                 .build();
+    }
+
+    public static ProdutoEntity convertToProdutoEntity(AtualizarProdutoJson json, Produto existente) {
+        return ProdutoEntity.builder()
+                .sku(existente.getSku())
+                .nome(json.nome())
+                .preco(json.preco())
+                .dataCriacao(existente.getDataCriacao())
+                .dataUltimaAlteracao(now())
+                .build();
+    }
+
+    public static void checkAtributo(Object obj, String errorMessage) {
+        if(obj == null){
+            throw new AtributoObrigatorioException(errorMessage);
+        }
     }
 }

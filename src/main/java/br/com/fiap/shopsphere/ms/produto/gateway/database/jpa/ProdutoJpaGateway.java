@@ -1,7 +1,9 @@
 package br.com.fiap.shopsphere.ms.produto.gateway.database.jpa;
 
 import br.com.fiap.shopsphere.ms.produto.domain.Produto;
+import br.com.fiap.shopsphere.ms.produto.exception.ErroAoAcessarRepositorioException;
 import br.com.fiap.shopsphere.ms.produto.exception.ProdutoExistenteException;
+import br.com.fiap.shopsphere.ms.produto.exception.ProdutoNotFound;
 import br.com.fiap.shopsphere.ms.produto.gateway.ProdutoGateway;
 import br.com.fiap.shopsphere.ms.produto.gateway.database.jpa.entity.ProdutoEntity;
 import br.com.fiap.shopsphere.ms.produto.gateway.database.jpa.repository.ProdutoRepository;
@@ -37,19 +39,27 @@ public class ProdutoJpaGateway implements ProdutoGateway {
 
     @Override
     public ProdutoEntity criarProduto(ProdutoEntity entity) {
+        try {
             return repository.save(entity);
+        } catch (Exception e){
+            throw new ErroAoAcessarRepositorioException();
+        }
     }
 
     @Override
     public void excluirProduto(String sku) {
         if (!repository.existsById(sku)) {
-            throw new RuntimeException("Produto não encontrado - SKU: " + sku);
+            throw new ProdutoNotFound();
         }
         repository.deleteById(sku);
     }
 
     @Override
     public ProdutoEntity alterarProduto(ProdutoEntity entity) {
-        return repository.save(entity);
+        try {
+            return repository.save(entity);
+        } catch (Exception e){
+            throw new ErroAoAcessarRepositorioException();
+        }
     }
 }

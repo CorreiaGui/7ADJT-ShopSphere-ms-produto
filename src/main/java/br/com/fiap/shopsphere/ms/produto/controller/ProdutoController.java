@@ -1,5 +1,6 @@
 package br.com.fiap.shopsphere.ms.produto.controller;
 
+import br.com.fiap.shopsphere.ms.produto.controller.json.AtualizarProdutoJson;
 import br.com.fiap.shopsphere.ms.produto.controller.json.ProdutoBodyRequestJson;
 import br.com.fiap.shopsphere.ms.produto.controller.json.ProdutoJson;
 import br.com.fiap.shopsphere.ms.produto.domain.Produto;
@@ -7,6 +8,7 @@ import br.com.fiap.shopsphere.ms.produto.usecase.*;
 import br.com.fiap.shopsphere.ms.produto.utils.ProdutoUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,15 +38,10 @@ public class ProdutoController {
 
     @GetMapping("/{sku}")
     public ResponseEntity<ProdutoJson> buscarProduto(@PathVariable("sku") String sku) {
-        log.info("Buscando produto com SKU: {}", sku);
+        log.info("GET | {} | Iniciada busca de produto | SKU: {}", V1_PRODUTOS, sku);
         Produto produto = buscar.buscarPorSku(sku);
-        if (produto == null) {
-            log.error("Produto não encontrado com SKU: {}", sku);
-            return notFound().build();
-        }
-        log.info("Produto encontrado: {}", produto);
         ProdutoJson produtoJson = convertToProdutoJson(produto);
-        log.info("produtoJson encontrado: {}", produtoJson);
+        log.info("GET | {} | Finalizada busca de produto  | SKU: {} {}", V1_PRODUTOS, sku, produtoJson);
         return ok(produtoJson);
     }
 
@@ -68,23 +65,18 @@ public class ProdutoController {
 
     @DeleteMapping("/{sku}")
     public ResponseEntity<String> deletarProduto(@PathVariable("sku") String sku) {
-        log.info("DELETE | {} | Iniciado deleção de Produto | id: {}", V1_PRODUTOS, sku);
-        try {
-            excluir.excluirProduto(sku);
-            log.info("DELETE | {} | Produto deletado com sucesso | Id: {}", V1_PRODUTOS, sku);
-            return status(NO_CONTENT).body("Produto excluído com sucesso!");
-        } catch (RuntimeException e) {
-            log.error("DELETE | {} | Erro ao deletar Produto | Id: {} | Erro: {}", V1_PRODUTOS, sku, e.getMessage());
-            return status(NOT_FOUND).body("Produto não encontrado");
-        }
+        log.info("DELETE | {} | Iniciado exclusao de Produto | id: {}", V1_PRODUTOS, sku);
+        excluir.excluirProduto(sku);
+        log.info("DELETE | {} | Finalizada exclusao de Produto | Id: {}", V1_PRODUTOS, sku);
+        return status(NO_CONTENT).build();
     }
 
     @PutMapping("/{sku}")
-    public ResponseEntity<String> alterarProduto(@PathVariable("sku") String sku,
-                                                 @RequestBody ProdutoBodyRequestJson produtoBodyRequestJson) {
-        log.info("PUT | {} | Iniciado alterarProduto | sku: {}", V1_PRODUTOS, produtoBodyRequestJson.sku());
-        alterar.alterarProduto(produtoBodyRequestJson, sku);
+    public ResponseEntity<Produto> alterarProduto(@PathVariable("sku") String sku,
+                                                 @RequestBody AtualizarProdutoJson atualizarProdutoJson) {
+        log.info("PUT | {} | Iniciado alterarProduto | sku: {}", V1_PRODUTOS, sku);
+        var atualizado = alterar.alterarProduto(atualizarProdutoJson, sku);
         log.info("PUT | {} | Finalizado alterarProduto", V1_PRODUTOS);
-        return ok("Produto atualizado com sucesso!");
+        return status(OK).body(atualizado);
     }
 }
