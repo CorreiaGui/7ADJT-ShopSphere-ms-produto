@@ -15,7 +15,7 @@ public class AlterarProdutoUseCase {
     @Autowired
     private ProdutoGateway gateway;
 
-    public void alterarProduto(ProdutoBodyRequestJson json) {
+    public void alterarProduto(ProdutoBodyRequestJson json, String sku) {
         Produto existente = gateway.buscarPorSku(json.sku())
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado - SKU: " + json.sku()));
         ProdutoEntity atualizado = convertToProdutoEntity(json, existente);

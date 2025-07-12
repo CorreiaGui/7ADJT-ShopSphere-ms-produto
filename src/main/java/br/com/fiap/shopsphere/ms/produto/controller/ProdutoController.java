@@ -79,10 +79,11 @@ public class ProdutoController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<String> alterarProduto(@RequestBody ProdutoBodyRequestJson produtoBodyRequestJson) {
+    @PutMapping("/{sku}")
+    public ResponseEntity<String> alterarProduto(@PathVariable("sku") String sku,
+                                                 @RequestBody ProdutoBodyRequestJson produtoBodyRequestJson) {
         log.info("PUT | {} | Iniciado alterarProduto | sku: {}", V1_PRODUTOS, produtoBodyRequestJson.sku());
-        alterar.alterarProduto(produtoBodyRequestJson);
+        alterar.alterarProduto(produtoBodyRequestJson, sku);
         log.info("PUT | {} | Finalizado alterarProduto", V1_PRODUTOS);
         return ok("Produto atualizado com sucesso!");
     }
