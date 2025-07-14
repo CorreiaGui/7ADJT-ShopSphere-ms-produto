@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import static br.com.fiap.shopsphere.ms.produto.utils.ProdutoConstants.*;
 import static br.com.fiap.shopsphere.ms.produto.utils.ProdutoUtils.checkAtributo;
 import static br.com.fiap.shopsphere.ms.produto.utils.ProdutoUtils.convertToProdutoEntity;
-import static java.time.LocalDateTime.now;
 
 @Service
 public class CriarProdutoUseCase {

@@ -8,7 +8,6 @@ import br.com.fiap.shopsphere.ms.produto.usecase.*;
 import br.com.fiap.shopsphere.ms.produto.utils.ProdutoUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,10 +48,10 @@ public class ProdutoController {
     public ResponseEntity<List<ProdutoJson>> buscarProdutos(@RequestParam(value = "page", defaultValue = "0") int page,
                                                             @RequestParam(value = "size", defaultValue = "10") int size) {
         log.info("GET | {} | Iniciado busca de produtos com paginacao | page: {} size: {} ", V1_PRODUTOS, page, size);
-        List<Produto> clientes = buscarProdutos.buscarProdutos(page, size);
-        log.info("GET | {} | Finalizada busca de produtos com paginacao | page: {} size: {} produtos: {}", V1_PRODUTOS, page, size, clientes);
-        List<ProdutoJson> clientesJson = clientes.stream().map(ProdutoUtils::convertToProdutoJson).toList();
-        return ok(clientesJson);
+        List<Produto> produtos = buscarProdutos.buscarProdutos(page, size);
+        log.info("GET | {} | Finalizada busca de produtos com paginacao | page: {} size: {} produtos: {}", V1_PRODUTOS, page, size, produtos);
+        List<ProdutoJson> produtosJson = produtos.stream().map(ProdutoUtils::convertToProdutoJson).toList();
+        return ok(produtosJson);
     }
 
     @PostMapping

@@ -6,9 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.AUTO;
 import static java.time.LocalDateTime.now;
 
 @Entity

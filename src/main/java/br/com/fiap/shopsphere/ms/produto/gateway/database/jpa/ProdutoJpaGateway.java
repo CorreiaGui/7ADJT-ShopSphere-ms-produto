@@ -2,7 +2,6 @@ package br.com.fiap.shopsphere.ms.produto.gateway.database.jpa;
 
 import br.com.fiap.shopsphere.ms.produto.domain.Produto;
 import br.com.fiap.shopsphere.ms.produto.exception.ErroAoAcessarRepositorioException;
-import br.com.fiap.shopsphere.ms.produto.exception.ProdutoExistenteException;
 import br.com.fiap.shopsphere.ms.produto.exception.ProdutoNotFound;
 import br.com.fiap.shopsphere.ms.produto.gateway.ProdutoGateway;
 import br.com.fiap.shopsphere.ms.produto.gateway.database.jpa.entity.ProdutoEntity;
@@ -33,8 +32,8 @@ public class ProdutoJpaGateway implements ProdutoGateway {
 
     @Override
     public List<Produto> buscarProdutos(int page, int size) {
-        Page<ProdutoEntity> clientesEntity = repository.findAll(of(page, size));
-        return clientesEntity.map(ProdutoUtils::convertToProduto).getContent();
+        Page<ProdutoEntity> produtosEntity = repository.findAll(of(page, size));
+        return produtosEntity.map(ProdutoUtils::convertToProduto).getContent();
     }
 
     @Override
